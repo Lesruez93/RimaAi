@@ -1,0 +1,13 @@
+# Top-level backend dependencies (compile to requirements.txt with pip-tools:
+#   pip-compile requirements.in -o requirements.txt)
+fastapi
+uvicorn[standard]
+sqlalchemy
+pydantic
+pydantic-settings
+python-multipart
+
+# Optional / production integrations (import-guarded in code):
+#   twilio          -> SMS + WhatsApp transport
+#   anthropic       -> LLM triage backend
+# Kept out of the core install so the console/rule demo stays lightweight.
