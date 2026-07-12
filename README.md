@@ -78,6 +78,7 @@ real report volume exists.
 rimaai/
 ├── app/            # Flutter app (feature-first): scan, livestock, alerts, guard, outbreaks
 ├── backend/        # FastAPI: routers, services, messaging, models, tests
+├── ml/             # Reproducible MobileNetV3 → quantized TFLite training pipeline
 ├── ussd-simulator/ # Static page to click through *123# flows
 ├── sample_data/    # Postgres/Supabase schema (+ RLS) and seed docs
 ├── docs/           # architecture, api, dataset_statement, screenshots

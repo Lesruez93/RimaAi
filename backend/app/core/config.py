@@ -50,6 +50,14 @@ class Settings(BaseSettings):
     outbreak_moderate_risk_threshold: float = 3.0
     outbreak_recency_window_days: int = 14
 
+    # --- On-device / server model weights (optional) ---
+    # When set (and a TFLite runtime + Pillow/numpy are installed) the /scan
+    # fallback uses the real quantized model; otherwise the placeholder
+    # classifier is used. See services/inference.py and ml/README.md.
+    crop_model_path: str | None = None
+    livestock_model_path: str | None = None
+    model_labels_path: str | None = None
+
     # --- CORS ---
     cors_origins: str = "*"
 

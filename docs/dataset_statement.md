@@ -27,6 +27,14 @@ bundling a large model binary or making unverifiable accuracy claims. The
 placeholder implements the exact interface a real TFLite/ONNX session would, so
 swapping in a trained model requires no caller changes.
 
+A full, reproducible training pipeline exists in [`ml/`](../ml/):
+`train_crop_model.py` transfer-learns MobileNetV3-Small and exports a quantized
+int8 TFLite model + `labels.txt`; `evaluate.py` reports accuracy and latency
+against the edge budget (<256 MB, <100 ms). Running it requires a GPU/CCE and a
+PlantVillage subset; the trained `.tflite` is not committed (kept out of git for
+size). The backend can load the resulting model for its `/scan` fallback via
+`CROP_MODEL_PATH` (else it uses the placeholder).
+
 **Known limitation:** PlantVillage images are captured under controlled
 conditions and do **not** represent Zimbabwean field lighting, soil background,
 or the specific local strains (e.g. Maize Lethal Necrosis). Field accuracy will
