@@ -148,6 +148,15 @@ flutter test              # widget tests
 
 ---
 
+## Continuous integration & deployment
+
+- **CI** (`.github/workflows/ci.yml`): lints + tests the backend (ruff, pytest,
+  seed smoke-test) and analyzes + tests the Flutter app on every push/PR.
+- **Container**: `backend/Dockerfile` + `docker-compose.yml` run the backend in
+  one command (`make docker-up`), with a commented Postgres service matching the
+  Supabase target — this is the path for deploying into the ZCHPC CCE.
+- **Make targets**: `make help` lists backend/app/docker shortcuts.
+
 ## Known limitations (honest list)
 
 - Disease/livestock models are **placeholder classifiers** in the MVP — the

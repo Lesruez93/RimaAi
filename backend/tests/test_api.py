@@ -111,7 +111,11 @@ def test_alert_dispatch(client: TestClient, consented_farmer: dict) -> None:
     )
     resp = client.post(
         "/alerts/dispatch",
-        json={"category": "tips", "body": "Dip your cattle weekly this season.", "region_name": "Gokwe"},
+        json={
+            "category": "tips",
+            "body": "Dip your cattle weekly this season.",
+            "region_name": "Gokwe",
+        },
     )
     assert resp.status_code == 200, resp.text
     assert resp.json()["recipients"] >= 1

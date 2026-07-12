@@ -13,7 +13,7 @@ This is deliberately transparent and auditable. Outbreak *spread prediction*
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -26,7 +26,7 @@ def _recency_weight(created_at: datetime, window_days: int, now: datetime) -> fl
     """Linear recency decay in [0, 1]; 1.0 today, 0.0 at the window edge."""
     # Normalise naive timestamps (SQLite) to UTC-aware for safe subtraction.
     if created_at.tzinfo is None:
-        created_at = created_at.replace(tzinfo=timezone.utc)
+        created_at = created_at.replace(tzinfo=UTC)
     age_days = (now - created_at).total_seconds() / 86400.0
     if age_days >= window_days:
         return 0.0
@@ -51,7 +51,7 @@ def recompute_district_risk(
     Returns the up-to-date :class:`DistrictRisk` (created if absent).
     """
     settings = get_settings()
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     window = settings.outbreak_recency_window_days
     cutoff = now - timedelta(days=window)
 

@@ -8,7 +8,7 @@ SQLite demo database; do NOT run against production.
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from app.core.database import SessionLocal, init_db
 from app.models import (
@@ -100,7 +100,7 @@ def seed() -> None:
 
         # Outbreak reports: cluster several recent tick_disease reports in Gokwe
         # so it tips into HIGH risk (demonstrates the auto-alert threshold).
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         recent_reports = [
             ("Gokwe", "tick_disease", 0, 0.7),
             ("Gokwe", "tick_disease", 1, 0.6),
