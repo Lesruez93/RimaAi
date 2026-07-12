@@ -95,7 +95,7 @@ function DataSourceBadge({ live }: { live: boolean }) {
       className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${
         live
           ? "border-risk-low bg-risk-low/10 text-risk-low"
-          : "border-rima-accent bg-rima-accent/10 text-rima-accent"
+          : "border-rima-gold bg-rima-gold/10 text-rima-gold"
       }`}
     >
       {live ? <Wifi size={14} /> : <WifiOff size={14} />}

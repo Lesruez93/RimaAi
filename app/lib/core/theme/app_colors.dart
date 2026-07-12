@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 /// RimaAI brand palette. Greens evoke farming/growth; amber/red carry the
 /// outbreak risk semantics used across the heat map and alert badges.
 abstract final class AppColors {
-  static const Color primary = Color(0xFF2E7D32); // rima green
-  static const Color primaryDark = Color(0xFF1B5E20);
-  static const Color primaryLight = Color(0xFF66BB6A);
-  static const Color accent = Color(0xFFF9A825); // maize/amber
-  static const Color surface = Color(0xFFF6F8F6);
-  static const Color surfaceDark = Color(0xFF121712);
+  // Brand palette sampled from the RimaAI badge logo.
+  static const Color primary = Color(0xFF14552E); // deep badge green
+  static const Color primaryDark = Color(0xFF0E3D21);
+  static const Color primaryLight = Color(0xFF2E8B4E);
+  static const Color leaf = Color(0xFF73A64B); // maize-leaf green
+  static const Color blue = Color(0xFF0C709C); // badge blue half
+  static const Color accent = Color(0xFFC6AA62); // badge gold ring
+  static const Color surface = Color(0xFFF4F6F1);
+  static const Color surfaceDark = Color(0xFF0E140F);
 
   // Risk levels — shared by the map, badges and alert cards.
   static const Color riskLow = Color(0xFF43A047); // 🟢

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   Camera,
@@ -37,7 +38,15 @@ export default function LandingPage() {
       <Navbar active="home" />
 
       {/* Hero */}
-      <section className="mx-auto max-w-6xl px-5 pb-8 pt-16 text-center">
+      <section className="mx-auto max-w-6xl px-5 pb-8 pt-14 text-center">
+        <Image
+          src="/logo.png"
+          alt="RimaAI logo"
+          width={132}
+          height={132}
+          priority
+          className="mx-auto mb-6 drop-shadow-sm"
+        />
         <span className="inline-flex items-center gap-2 rounded-full border border-rima/30 bg-rima/10 px-3 py-1 text-sm font-medium text-rima">
           <Smartphone size={15} /> Offline-first · Multi-channel · Trilingual
         </span>
@@ -105,7 +114,7 @@ export default function LandingPage() {
 
       {/* CTA */}
       <section className="mx-auto max-w-6xl px-5 py-12">
-        <div className="rounded-3xl bg-rima px-8 py-12 text-center text-white">
+        <div className="rounded-3xl bg-gradient-to-r from-rima to-rima-blue px-8 py-12 text-center text-white">
           <h2 className="text-2xl font-bold sm:text-3xl">See the early-warning loop in action</h2>
           <p className="mx-auto mt-3 max-w-2xl text-white/80">
             The officer dashboard shows live district risk, community outbreak

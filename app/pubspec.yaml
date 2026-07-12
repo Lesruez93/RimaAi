@@ -35,3 +35,4 @@ flutter:
   assets:
     - assets/l10n/
     - assets/models/
+    - assets/images/

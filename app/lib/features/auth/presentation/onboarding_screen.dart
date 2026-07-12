@@ -40,8 +40,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 24),
-              Icon(Icons.eco,
-                  size: 72, color: Theme.of(context).colorScheme.primary),
+              Image.asset(
+                'assets/images/logo.png',
+                width: 128,
+                height: 128,
+                errorBuilder: (context, error, stackTrace) => Icon(
+                  Icons.eco,
+                  size: 72,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               const SizedBox(height: 12),
               Text(
                 s.t('appName'),
