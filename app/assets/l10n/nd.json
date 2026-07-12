@@ -1,0 +1,20 @@
+{
+  "appName": "RimaAI",
+  "tagline": "Umngane wakho wokulima ohlakaniphileyo",
+  "chooseLanguage": "Khetha ulimi lwakho",
+  "getStarted": "Qalisa",
+  "home": "Ekhaya",
+  "scan": "Skena",
+  "scanCrop": "Skena isilimo",
+  "livestock": "Izifuyo",
+  "alerts": "Izaziso",
+  "guard": "Umlindi",
+  "outbreakMap": "Imephu yezifo",
+  "reportOutbreak": "Bika isifo",
+  "triageTitle": "Ukuhlola impilo yezifuyo",
+  "describeSymptoms": "Chaza izimpawu",
+  "send": "Thumela",
+  "consultVet": "Hlala uqinisekisa le-AGRITEX kumbe udokotela wezifuyo.",
+  "subscribe": "Bhalisa",
+  "consentNotice": "Ngiyavuma ukuthi i-RimaAI igcine inombolo yami yefoni ukuze ingithumele izaziso."
+}

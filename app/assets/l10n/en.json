@@ -1,0 +1,20 @@
+{
+  "appName": "RimaAI",
+  "tagline": "Your smart farming companion",
+  "chooseLanguage": "Choose your language",
+  "getStarted": "Get started",
+  "home": "Home",
+  "scan": "Scan",
+  "scanCrop": "Scan a crop",
+  "livestock": "Livestock",
+  "alerts": "Alerts",
+  "guard": "Guard",
+  "outbreakMap": "Outbreak map",
+  "reportOutbreak": "Report an outbreak",
+  "triageTitle": "Livestock health check",
+  "describeSymptoms": "Describe the symptoms",
+  "send": "Send",
+  "consultVet": "Always confirm with AGRITEX or a veterinarian.",
+  "subscribe": "Subscribe",
+  "consentNotice": "I consent to RimaAI storing my phone number to send me alerts."
+}

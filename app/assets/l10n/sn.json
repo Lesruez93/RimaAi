@@ -1,0 +1,20 @@
+{
+  "appName": "RimaAI",
+  "tagline": "Shamwari yako yekurima ine njere",
+  "chooseLanguage": "Sarudza mutauro wako",
+  "getStarted": "Tanga",
+  "home": "Kumba",
+  "scan": "Skena",
+  "scanCrop": "Skena chirimwa",
+  "livestock": "Zvipfuwo",
+  "alerts": "Yambiro",
+  "guard": "Murindi",
+  "outbreakMap": "Mepu yezvirwere",
+  "reportOutbreak": "Shuma chirwere",
+  "triageTitle": "Kutarisa hutano hwezvipfuwo",
+  "describeSymptoms": "Tsanangura zviratidzo",
+  "send": "Tumira",
+  "consultVet": "Nguva dzose simbisa neAGRITEX kana chiremba wemhuka.",
+  "subscribe": "Nyoresa",
+  "consentNotice": "Ndinobvuma RimaAI kuchengeta nhamba yangu yefoni kuti inditumire yambiro."
+}
