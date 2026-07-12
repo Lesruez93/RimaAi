@@ -77,6 +77,7 @@ real report volume exists.
 ```
 rimaai/
 ├── app/            # Flutter app (feature-first): scan, livestock, alerts, guard, outbreaks
+├── web/            # Next.js landing page + AGRITEX officer dashboard (lucide icons)
 ├── backend/        # FastAPI: routers, services, messaging, models, tests
 ├── ml/             # Reproducible MobileNetV3 → quantized TFLite training pipeline
 ├── ussd-simulator/ # Static page to click through *123# flows
@@ -120,6 +121,16 @@ flutter pub get
 flutter run --dart-define=RIMAAI_API_BASE=http://10.0.2.2:8000
 flutter test              # widget tests
 ```
+
+### 4. Web (landing page + AGRITEX officer dashboard)
+
+```bash
+cd web
+npm install
+npm run dev               # http://localhost:3000  (reads the backend; falls back to demo data)
+```
+The dashboard visualizes district risk, community reports, dispatched alerts and
+Guard events. See `web/README.md`.
 
 ---
 
