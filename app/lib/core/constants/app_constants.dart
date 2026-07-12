@@ -17,7 +17,7 @@ abstract final class AppConstants {
   static const outbreakTypes = <OutbreakType>[
     OutbreakType('crop_disease', 'Crop disease', Icons.grass_outlined),
     OutbreakType('armyworm', 'Fall armyworm', Icons.bug_report_outlined),
-    OutbreakType('locusts', 'Locusts', Icons.flutter_dash_outlined),
+    OutbreakType('locusts', 'Locusts', Icons.grain),
     OutbreakType('tick_disease', 'Tick / January disease', Icons.pest_control_outlined),
     OutbreakType('flood', 'Flood', Icons.water_outlined),
   ];

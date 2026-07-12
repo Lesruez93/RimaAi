@@ -24,16 +24,14 @@ abstract final class AppTheme {
   }
 
   static ThemeData _base(ColorScheme scheme, Color scaffold) {
+    // Note: only the color scheme and button theme are overridden here.
+    // AppBar/Card/InputDecoration theming is left to the Material 3 defaults so
+    // the code stays portable across Flutter versions (their theme-data classes
+    // were renamed in 3.29); component styling is applied at the widget level.
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
       scaffoldBackgroundColor: scaffold,
-      appBarTheme: const AppBarTheme(centerTitle: false, elevation: 0),
-      cardTheme: CardTheme(
-        elevation: 1,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        clipBehavior: Clip.antiAlias,
-      ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           minimumSize: const Size.fromHeight(52),
@@ -41,12 +39,6 @@ abstract final class AppTheme {
             borderRadius: BorderRadius.circular(14),
           ),
         ),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        filled: true,
       ),
     );
   }

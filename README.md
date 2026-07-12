@@ -139,7 +139,7 @@ flutter test              # widget tests
 
 ## Tech stack
 
-- **App:** Flutter (Material 3), provider, go_router-ready, flutter_map, image_picker.
+- **App:** Flutter (Material 3), provider, flutter_map, image_picker.
 - **Backend:** FastAPI, SQLAlchemy, Pydantic v2. SQLite (demo) / Postgres (prod).
 - **AI (target):** MobileNetV3 TFLite on-device; YOLOv8n server-side; LLM triage
   (Anthropic Claude) with rule fallback.
