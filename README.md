@@ -7,8 +7,8 @@
 **AI-powered smart farming companion for Zimbabwean farmers.**
 *"Rima" (chiShona) = to farm / to plough.*
 
-Brand palette (from the badge logo): deep green `#14552E`, teal-blue `#0C709C`,
-gold `#C6AA62`, maize-leaf green `#73A64B`.
+Brand palette (from the badge logo): deep green `#18532E`, teal-blue `#136A90`,
+gold `#C5A763`, maize-leaf green `#73A64B`.
 
 RimaAI is a single, multi-channel app that puts an agricultural extension officer
 in every farmer's pocket — working **offline** on smartphones and reaching

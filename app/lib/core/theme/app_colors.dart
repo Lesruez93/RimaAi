@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 /// outbreak risk semantics used across the heat map and alert badges.
 abstract final class AppColors {
   // Brand palette sampled from the RimaAI badge logo.
-  static const Color primary = Color(0xFF14552E); // deep badge green
+  static const Color primary = Color(0xFF18532E); // deep badge green
   static const Color primaryDark = Color(0xFF0E3D21);
   static const Color primaryLight = Color(0xFF2E8B4E);
   static const Color leaf = Color(0xFF73A64B); // maize-leaf green
-  static const Color blue = Color(0xFF0C709C); // badge blue half
-  static const Color accent = Color(0xFFC6AA62); // badge gold ring
+  static const Color blue = Color(0xFF136A90); // badge blue half
+  static const Color accent = Color(0xFFC5A763); // badge gold ring
   static const Color surface = Color(0xFFF4F6F1);
   static const Color surfaceDark = Color(0xFF0E140F);
 
