@@ -54,6 +54,14 @@ const evaluatorLinks = [
     cta: "Open simulator",
     external: true,
   },
+  {
+    icon: Smartphone,
+    title: "WhatsApp simulator",
+    body: "Chat with the real RimaAI WhatsApp bot in the browser — subscribe, check symptoms, no phone needed.",
+    href: "/whatsapp-simulator.html",
+    cta: "Open simulator",
+    external: true,
+  },
 ];
 
 const features = [
@@ -127,10 +135,10 @@ export default function LandingPage() {
           </h2>
           <p className="mx-auto mt-1 max-w-2xl text-center text-sm text-black/60 dark:text-white/60">
             This page is the single hub for the AI4I submission: the UI demo,
-            the Android APK, the GitHub source and the USSD simulator are all
-            linked below.
+            the Android APK, the GitHub source and the USSD and WhatsApp
+            simulators are all linked below.
           </p>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {evaluatorLinks.map((l) => (
               <div
                 key={l.title}

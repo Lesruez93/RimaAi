@@ -97,6 +97,38 @@ def test_ussd_root_and_subscribe_flow(client: TestClient) -> None:
     assert "weather" in mine.text.lower()
 
 
+def test_whatsapp_menu_and_subscribe_flow(client: TestClient) -> None:
+    """The WhatsApp bot walks from the main menu to a subscription confirmation."""
+    phone = "whatsapp:+263770000011"
+
+    greeting = client.post("/whatsapp/webhook", data={"From": phone, "Body": "hi"})
+    assert "Subscribe to alerts" in greeting.text
+
+    menu = client.post("/whatsapp/webhook", data={"From": phone, "Body": "1"})
+    assert "Weather alerts" in menu.text
+
+    done = client.post("/whatsapp/webhook", data={"From": phone, "Body": "1"})
+    assert "subscribed" in done.text.lower()
+
+    # The subscription created via WhatsApp should now be listed back.
+    mine = client.post("/whatsapp/webhook", data={"From": phone, "Body": "2"})
+    assert "weather" in mine.text.lower()
+
+
+def test_whatsapp_livestock_triage_flow(client: TestClient) -> None:
+    """Option 3 collects free-text symptoms and returns a triage result."""
+    phone = "whatsapp:+263770000012"
+
+    client.post("/whatsapp/webhook", data={"From": phone, "Body": "hi"})
+    prompt = client.post("/whatsapp/webhook", data={"From": phone, "Body": "3"})
+    assert "describe" in prompt.text.lower()
+
+    result = client.post(
+        "/whatsapp/webhook", data={"From": phone, "Body": "swollen glands and fever"}
+    )
+    assert "urgency" in result.text.lower()
+
+
 def test_alert_dispatch(client: TestClient, consented_farmer: dict) -> None:
     """Dispatching an alert reaches consented subscribers via the console transport."""
     fid = consented_farmer["id"]

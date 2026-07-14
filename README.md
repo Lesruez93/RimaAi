@@ -83,13 +83,14 @@ real report volume exists.
 
 ```
 rimaai/
-├── app/            # Flutter app (feature-first): scan, livestock, alerts, guard, outbreaks
-├── web/            # Next.js landing page + AGRITEX officer dashboard (lucide icons)
-├── backend/        # FastAPI: routers, services, messaging, models, tests
-├── ml/             # Reproducible MobileNetV3 → quantized TFLite training pipeline
-├── ussd-simulator/ # Static page to click through *123# flows
-├── sample_data/    # Postgres/Supabase schema (+ RLS) and seed docs
-└── docs/           # architecture, api, dataset_statement, screenshots
+├── app/                 # Flutter app (feature-first): scan, livestock, alerts, guard, outbreaks
+├── web/                 # Next.js landing page + AGRITEX officer dashboard (lucide icons)
+├── backend/             # FastAPI: routers, services, messaging, models, tests
+├── ml/                  # Reproducible MobileNetV3 → quantized TFLite training pipeline
+├── ussd-simulator/      # Static page to click through *123# flows
+├── whatsapp-simulator/  # Static page to chat with the WhatsApp bot
+├── sample_data/         # Postgres/Supabase schema (+ RLS) and seed docs
+└── docs/                # architecture, api, dataset_statement, screenshots
 ```
 
 ---
@@ -108,14 +109,18 @@ uvicorn app.main:app --reload # http://localhost:8000/docs
 
 Run the tests:
 ```bash
-pytest            # 20 tests
+pytest            # 22 tests
 ```
 
 ### 2. USSD simulator
 Open `ussd-simulator/index.html` in a browser (backend running). Type `*123#`,
 Send, then reply with menu numbers. See `ussd-simulator/README.md`.
 
-### 3. Flutter app
+### 3. WhatsApp simulator
+Open `whatsapp-simulator/index.html` in a browser (backend running). Type
+`hi`, then reply with menu numbers. See `whatsapp-simulator/README.md`.
+
+### 4. Flutter app
 > Platform folders (`android/`, `ios/`) are generated per machine — run
 > `flutter create .` inside `app/` once to add them, then:
 
@@ -128,7 +133,7 @@ flutter run --dart-define=RIMAAI_API_BASE=http://10.0.2.2:8000
 flutter test              # widget tests
 ```
 
-### 4. Web (landing page + AGRITEX officer dashboard)
+### 5. Web (landing page + AGRITEX officer dashboard)
 
 ```bash
 cd web
@@ -151,7 +156,8 @@ Guard events. See `web/README.md`.
    in a new district and watch it tip to high risk + auto-dispatch an SMS alert
    (visible in the backend console log).
 6. **USSD simulator** → `*123#` → subscribe on a "feature phone".
-7. **Guard** → cycle camera frames → intrusion box + alert history.
+7. **WhatsApp simulator** → say `hi` → subscribe or run a livestock symptom check.
+8. **Guard** → cycle camera frames → intrusion box + alert history.
 
 ---
 

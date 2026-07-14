@@ -20,6 +20,7 @@ from app.routers import (
     subscriptions,
     triage,
     ussd,
+    whatsapp,
 )
 from app.seed import seed
 
@@ -76,5 +77,6 @@ for _router in (
     guard.router,
     outbreaks.router,
     ussd.router,
+    whatsapp.router,
 ):
     app.include_router(_router)

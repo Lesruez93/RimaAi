@@ -28,6 +28,7 @@ flowchart TD
       R6[guard]:::r
       R7[outbreaks]:::r
       R8[ussd]:::r
+      R9[whatsapp]:::r
 
       S1[Inference service<br/>TFLite/ONNX server model]
       S2[Triage service<br/>LLM + rule fallback]
@@ -63,9 +64,11 @@ work with **zero connectivity**. Results are cached locally and sync to
 ### Multi-channel by design
 The alert dispatcher is channel-agnostic: it resolves subscribers from the
 database and hands messages to a pluggable messaging layer. The same alert can
-go out over SMS or WhatsApp; USSD is pull-based and handled by a stateless
+go out over SMS or WhatsApp. USSD is pull-based and handled by a stateless
 menu-tree endpoint that reads the accumulated `text` field (Africa's Talking
-callback format).
+callback format); WhatsApp is inbound-driven too, but one message at a time
+(Twilio webhook format), so the same numbered-menu flow is served from a small
+in-memory per-phone state machine instead.
 
 ### Where AI is / isn't used
 | Component | AI? | Technique |

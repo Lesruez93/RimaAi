@@ -148,3 +148,21 @@ Menu tree:
   3. About RimaAI → END info
 ```
 Try it via the [USSD simulator](../ussd-simulator/).
+
+---
+
+## WhatsApp — `POST /whatsapp/webhook`
+Twilio WhatsApp webhook shape. `application/x-www-form-urlencoded`:
+`From` (`whatsapp:+263...`), `Body` (the message text). One message per
+request, no session id — conversation state is kept in-memory per phone
+number. Returns plain text with the bot's reply.
+
+Menu tree:
+```
+(any message)
+  1. Subscribe to alerts → 1..5 category → confirmation
+  2. My subscriptions → list
+  3. Livestock symptom check → free text → triage result
+  4. About RimaAI → info
+```
+Try it via the [WhatsApp simulator](../whatsapp-simulator/).
