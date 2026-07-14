@@ -10,7 +10,7 @@ const DEFAULT_API_BASE =
     ? "https://rimaai-backend-943314742820.us-central1.run.app"
     : "http://localhost:8000";
 
-const API_BASE =
+export const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "") ?? DEFAULT_API_BASE;
 
 async function getJson<T>(path: string): Promise<T> {

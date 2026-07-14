@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { WhatsAppSimulator } from "@/components/WhatsAppSimulator";
+import { UssdSimulator } from "@/components/UssdSimulator";
 
 const GITHUB_URL = "https://github.com/Lesruez93/RimaAi";
 
@@ -50,17 +52,17 @@ const evaluatorLinks = [
     icon: MessageSquare,
     title: "USSD simulator",
     body: "Feature-phone flow in the browser — dial *123# against the live backend, no telco needed.",
-    href: "/ussd-simulator.html",
-    cta: "Open simulator",
-    external: true,
+    href: "#simulators",
+    cta: "Try it below",
+    external: false,
   },
   {
     icon: Smartphone,
     title: "WhatsApp simulator",
     body: "Chat with the real RimaAI WhatsApp bot in the browser — subscribe, check symptoms, no phone needed.",
-    href: "/whatsapp-simulator.html",
-    cta: "Open simulator",
-    external: true,
+    href: "#simulators",
+    cta: "Try it below",
+    external: false,
   },
 ];
 
@@ -163,6 +165,19 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Simulators — live, embedded, no install */}
+      <section id="simulators" className="mx-auto max-w-6xl px-5 py-12">
+        <h2 className="text-center text-2xl font-bold">Try it right here</h2>
+        <p className="mx-auto mt-2 max-w-2xl text-center text-black/60 dark:text-white/60">
+          Both talk to the same live backend a real farmer would reach over
+          USSD or WhatsApp — no telco, no Twilio, no install.
+        </p>
+        <div className="mt-8 grid gap-10 sm:grid-cols-2">
+          <WhatsAppSimulator />
+          <UssdSimulator />
+        </div>
+      </section>
+
       {/* Problem */}
       <section className="mx-auto max-w-6xl px-5 py-12">
         <div className="grid gap-4 sm:grid-cols-3">
@@ -192,6 +207,40 @@ export default function LandingPage() {
               <p className="mt-2 text-sm text-black/70 dark:text-white/70">{f.body}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Screenshots */}
+      <section className="mx-auto max-w-6xl px-5 py-8">
+        <h2 className="text-2xl font-bold">See it, not just read about it</h2>
+        <p className="mt-2 max-w-2xl text-black/60 dark:text-white/60">
+          Real captures from this live deployment — not mockups.
+        </p>
+        <div className="mt-8 grid gap-6">
+          <figure className="overflow-hidden rounded-2xl border border-black/5 bg-white/60 shadow-sm dark:bg-white/5">
+            <Image
+              src="/screenshots/dashboard.png"
+              alt="AGRITEX officer dashboard showing district risk, community reports, alerts and Guard events"
+              width={2560}
+              height={1520}
+              className="w-full"
+            />
+            <figcaption className="border-t border-black/5 px-5 py-3 text-sm text-black/60 dark:text-white/60">
+              Officer dashboard — live district risk, alerts and Guard events.
+            </figcaption>
+          </figure>
+          <figure className="overflow-hidden rounded-2xl border border-black/5 bg-white/60 shadow-sm dark:bg-white/5">
+            <Image
+              src="/screenshots/simulators.png"
+              alt="WhatsApp and USSD simulators mid-conversation, subscribing a farmer to disease outbreak alerts"
+              width={2224}
+              height={1044}
+              className="w-full"
+            />
+            <figcaption className="border-t border-black/5 px-5 py-3 text-sm text-black/60 dark:text-white/60">
+              The WhatsApp and USSD simulators above, mid-conversation.
+            </figcaption>
+          </figure>
         </div>
       </section>
 
