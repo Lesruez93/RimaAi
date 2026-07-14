@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RimaAI WhatsApp Simulator</title>
+  <style>
+    :root { --wa-green:#25D366; --wa-dark-green:#075E54; --wa-teal:#128C7E; --wa-bg:#e5ddd5; }
+    * { box-sizing: border-box; font-family: system-ui, sans-serif; }
+    body { margin:0; background:#0b141a; display:flex; min-height:100vh;
+           align-items:center; justify-content:center; padding:1rem; }
+    .phone { width:340px; background:#111; border-radius:32px; padding:10px;
+             box-shadow:0 12px 40px rgba(0,0,0,.5); }
+    .chat { display:flex; flex-direction:column; height:560px; border-radius:22px;
+            overflow:hidden; background:var(--wa-bg); }
+    .header { background:var(--wa-dark-green); color:#fff; padding:12px 14px;
+               display:flex; align-items:center; gap:10px; flex-shrink:0; }
+    .avatar { width:36px; height:36px; border-radius:50%; background:var(--wa-teal);
+              display:flex; align-items:center; justify-content:center; font-weight:700; }
+    .header .name { font-weight:600; font-size:15px; }
+    .header .status { font-size:11px; opacity:.8; }
+    .messages { flex:1; overflow-y:auto; padding:12px 10px; display:flex;
+                flex-direction:column; gap:6px; }
+    .bubble { max-width:80%; padding:7px 10px; border-radius:8px; font-size:14px;
+              line-height:1.4; white-space:pre-wrap; box-shadow:0 1px 1px rgba(0,0,0,.15); }
+    .bubble.bot { align-self:flex-start; background:#fff; border-top-left-radius:0; }
+    .bubble.me { align-self:flex-end; background:#dcf8c6; border-top-right-radius:0; }
+    .bubble .time { display:block; margin-top:3px; font-size:10px; color:#00000066; text-align:right; }
+    .composer { display:flex; gap:6px; padding:8px; background:#f0f0f0; flex-shrink:0; }
+    .composer input { flex:1; padding:10px 12px; border-radius:20px; border:none; font-size:14px; }
+    .composer button { width:38px; height:38px; border-radius:50%; border:none;
+                        background:var(--wa-green); color:#fff; font-weight:700; cursor:pointer; }
+    .hint { color:#9e9e9e; font-size:11px; margin-top:10px; text-align:center; }
+    .config { max-width:340px; margin-top:14px; font-size:12px; color:#bbb; }
+    .config input { padding:6px; font-size:12px; border-radius:6px; border:none; }
+    .toolbar { display:flex; justify-content:flex-end; padding:6px 10px 0; }
+    .toolbar button { border:none; background:none; color:#ccc; font-size:11px; cursor:pointer;
+                       text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="phone">
+      <div class="chat">
+        <div class="header">
+          <div class="avatar">R</div>
+          <div>
+            <div class="name">RimaAI</div>
+            <div class="status">business account</div>
+          </div>
+        </div>
+        <div class="messages" id="messages"></div>
+        <div class="composer">
+          <input id="entry" placeholder="Type a message" autocomplete="off" />
+          <button id="send">&#10148;</button>
+        </div>
+      </div>
+      <div class="toolbar"><button id="reset">Reset chat</button></div>
+      <div class="hint">Chat with the real RimaAI WhatsApp bot — no phone or Twilio needed.</div>
+    </div>
+    <div class="config">
+      Backend: <input id="base" value="https://rimaai-backend-943314742820.us-central1.run.app" style="width:230px" />
+      &nbsp;Phone: <input id="phone" value="+263771234568" style="width:120px" />
+    </div>
+  </div>
+
+  <script>
+    const messagesEl = document.getElementById("messages");
+    const entry = document.getElementById("entry");
+
+    function timeNow() {
+      return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function addBubble(text, who) {
+      const div = document.createElement("div");
+      div.className = "bubble " + who;
+      const time = document.createElement("span");
+      time.className = "time";
+      time.textContent = timeNow();
+      div.textContent = text;
+      div.appendChild(time);
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    async function sendToBot(body) {
+      const base = document.getElementById("base").value.replace(/\/$/, "");
+      const phone = document.getElementById("phone").value;
+      const form = new URLSearchParams({ From: "whatsapp:" + phone, Body: body });
+      try {
+        const res = await fetch(base + "/whatsapp/webhook", { method: "POST", body: form });
+        const reply = await res.text();
+        addBubble(reply, "bot");
+      } catch (e) {
+        addBubble(
+          "Network error — is the backend running on " +
+            document.getElementById("base").value + " ?\n\n" + e,
+          "bot"
+        );
+      }
+    }
+
+    function handleSend() {
+      const value = entry.value.trim();
+      if (!value) return;
+      addBubble(value, "me");
+      entry.value = "";
+      sendToBot(value);
+    }
+
+    document.getElementById("send").onclick = handleSend;
+    entry.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleSend();
+    });
+    document.getElementById("reset").onclick = () => {
+      messagesEl.innerHTML = "";
+      addBubble("Say hi to start the RimaAI WhatsApp menu.", "bot");
+    };
+
+    addBubble("Say hi to start the RimaAI WhatsApp menu.", "bot");
+  </script>
+</body>
+</html>
