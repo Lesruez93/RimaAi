@@ -4,6 +4,8 @@ import {
   ArrowRight,
   Camera,
   CloudRain,
+  Download,
+  Github,
   Languages,
   LayoutDashboard,
   MapPin,
@@ -16,6 +18,43 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+
+const GITHUB_URL = "https://github.com/Lesruez93/RimaAi";
+
+const evaluatorLinks = [
+  {
+    icon: LayoutDashboard,
+    title: "UI demo",
+    body: "The officer dashboard on this site — live district risk, alerts and Guard events, no install needed.",
+    href: "/dashboard",
+    cta: "Open dashboard",
+    external: false,
+  },
+  {
+    icon: Download,
+    title: "Android APK",
+    body: "Release build (arm64), points at the live backend by default — install directly on a test device.",
+    href: "/downloads/RimaAI.apk",
+    cta: "Download APK",
+    external: false,
+  },
+  {
+    icon: Github,
+    title: "Source code",
+    body: "Backend, Flutter app, web dashboard, docs and tests — everything behind this demo.",
+    href: GITHUB_URL,
+    cta: "View on GitHub",
+    external: true,
+  },
+  {
+    icon: MessageSquare,
+    title: "USSD simulator",
+    body: "Feature-phone flow in the browser — dial *123# against the live backend, no telco needed.",
+    href: "/ussd-simulator.html",
+    cta: "Open simulator",
+    external: true,
+  },
+];
 
 const features = [
   { icon: Camera, title: "Crop disease scanner", body: "Photograph a leaf and get an offline, on-device diagnosis with treatment advice in English, Shona and Ndebele." },
@@ -77,6 +116,42 @@ export default function LandingPage() {
           <span className="inline-flex items-center gap-2"><WifiOff size={16} /> Works offline</span>
           <span className="inline-flex items-center gap-2"><Languages size={16} /> English · chiShona · isiNdebele</span>
           <span className="inline-flex items-center gap-2"><ShieldAlert size={16} /> Human-oversight by design</span>
+        </div>
+      </section>
+
+      {/* Evaluator links — everything a judge needs, from this one page */}
+      <section className="mx-auto max-w-6xl px-5 py-8">
+        <div className="rounded-2xl border border-rima/20 bg-rima/5 p-6">
+          <h2 className="text-center text-lg font-bold">
+            For judges &amp; evaluators — everything is here
+          </h2>
+          <p className="mx-auto mt-1 max-w-2xl text-center text-sm text-black/60 dark:text-white/60">
+            This page is the single hub for the AI4I submission: the UI demo,
+            the Android APK, the GitHub source and the USSD simulator are all
+            linked below.
+          </p>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {evaluatorLinks.map((l) => (
+              <div
+                key={l.title}
+                className="flex flex-col rounded-xl border border-black/5 bg-white/70 p-5 dark:bg-white/5"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-rima/10 text-rima">
+                  <l.icon size={20} />
+                </span>
+                <h3 className="mt-3 font-semibold">{l.title}</h3>
+                <p className="mt-1 flex-1 text-sm text-black/60 dark:text-white/60">{l.body}</p>
+                <a
+                  href={l.href}
+                  target={l.external ? "_blank" : undefined}
+                  rel={l.external ? "noopener noreferrer" : undefined}
+                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-rima hover:underline"
+                >
+                  {l.cta} <ArrowRight size={14} />
+                </a>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

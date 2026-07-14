@@ -16,10 +16,12 @@ from app.core.config import get_settings
 settings = get_settings()
 
 # ``check_same_thread`` is only needed for SQLite; it is ignored by Postgres.
+# ``prepare_threshold=None`` disables psycopg3 server-side prepared statements,
+# which Supabase's transaction-mode pooler (port 6543) does not support.
 _connect_args = (
     {"check_same_thread": False}
     if settings.database_url.startswith("sqlite")
-    else {}
+    else {"prepare_threshold": None}
 )
 
 engine = create_engine(settings.database_url, connect_args=_connect_args, future=True)

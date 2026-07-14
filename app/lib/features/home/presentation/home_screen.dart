@@ -8,6 +8,7 @@ import '../../../core/network/api_client.dart';
 import '../../../core/session/farmer_session.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/info_card.dart';
+import '../../alerts/presentation/alerts_screen.dart';
 import '../../guard/presentation/guard_screen.dart';
 import '../../livestock/presentation/livestock_screen.dart';
 import '../../scan/presentation/scan_screen.dart';
@@ -53,6 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(s.t('appName')),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications_outlined),
+            tooltip: s.t('alerts'),
+            onPressed: () => _open(const AlertsScreen()),
+          ),
           PopupMenuButton<String>(
             icon: const Icon(Icons.language),
             onSelected: (code) =>

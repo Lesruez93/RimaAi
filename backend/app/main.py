@@ -21,6 +21,7 @@ from app.routers import (
     triage,
     ussd,
 )
+from app.seed import seed
 
 logging.basicConfig(level=logging.INFO)
 settings = get_settings()
@@ -30,6 +31,8 @@ settings = get_settings()
 async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
     """Create database tables on startup (idempotent)."""
     init_db()
+    if settings.seed_on_startup:
+        seed()
     yield
 
 

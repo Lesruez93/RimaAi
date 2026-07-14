@@ -1,5 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Download, Github } from "lucide-react";
+
+const GITHUB_URL = "https://github.com/Lesruez93/RimaAi";
 
 /** Top navigation bar shared by the landing page and dashboard. */
 export function Navbar({ active }: { active?: "home" | "dashboard" }) {
@@ -34,6 +37,20 @@ export function Navbar({ active }: { active?: "home" | "dashboard" }) {
           >
             Officer dashboard
           </Link>
+          <a
+            href="/downloads/RimaAI.apk"
+            className="flex items-center gap-1.5 rounded-lg px-3 py-2 hover:bg-black/5"
+          >
+            <Download size={15} /> APK
+          </a>
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 rounded-lg px-3 py-2 hover:bg-black/5"
+          >
+            <Github size={15} /> GitHub
+          </a>
         </nav>
       </div>
     </header>

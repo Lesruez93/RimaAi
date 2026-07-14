@@ -7,6 +7,9 @@ pydantic
 pydantic-settings
 python-multipart
 
+# Postgres driver (Supabase / production DATABASE_URL).
+psycopg[binary]
+
 # Optional / production integrations (import-guarded in code):
 #   twilio          -> SMS + WhatsApp transport
 #   anthropic       -> LLM triage backend

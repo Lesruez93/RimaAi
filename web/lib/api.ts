@@ -1,8 +1,17 @@
 import { mockDashboard } from "./mockData";
 import type { Alert, DashboardData, DistrictRisk, GuardEvent, OutbreakReport } from "./types";
 
+// Falls back to the deployed Cloud Run backend in production builds (Vercel
+// sets NODE_ENV=production automatically) so the live site works even if
+// NEXT_PUBLIC_API_BASE isn't separately configured in the hosting dashboard.
+// Local `next dev` still defaults to a local backend on localhost:8000.
+const DEFAULT_API_BASE =
+  process.env.NODE_ENV === "production"
+    ? "https://rimaai-backend-943314742820.us-central1.run.app"
+    : "http://localhost:8000";
+
 const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "") ?? "http://localhost:8000";
+  process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "") ?? DEFAULT_API_BASE;
 
 async function getJson<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, { cache: "no-store" });

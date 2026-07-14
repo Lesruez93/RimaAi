@@ -29,6 +29,11 @@ class Settings(BaseSettings):
     # In production set DATABASE_URL to the Supabase/Postgres connection string.
     database_url: str = "sqlite:///./rimaai.db"
 
+    # Re-run app.seed on every startup. Needed on ephemeral hosts (e.g. Cloud
+    # Run) where the SQLite file resets on each cold start; leave off for
+    # local dev so data survives reloads.
+    seed_on_startup: bool = False
+
     # --- Messaging transport ---
     # console -> logs messages instead of sending (safe default for demos)
     # twilio  -> uses Twilio SMS/WhatsApp (requires credentials below)

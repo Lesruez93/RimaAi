@@ -1,6 +1,9 @@
 <!--
 Formatting target for PDF export: Avenir/Arial 11pt, 1.15 line spacing,
-1-inch margins, max 10 pages excluding this cover and appendices.
+1-inch margins, max 10 A4 pages TOTAL including this cover page (official
+submission limit). This markdown is the full working draft/reference;
+the condensed, page-budgeted submission file is
+proposal/RimaAI_AI4I_Proposal_Development.docx.
 -->
 
 <div align="center">
@@ -15,9 +18,10 @@ Formatting target for PDF export: Avenir/Arial 11pt, 1.15 line spacing,
 | **Project Title** | RimaAI — Smart Farming Companion |
 | **Track** | Development |
 | **Team Name** | Team RimaAI |
-| **Lead Innovator** | Lester Rusike |
+| **Team Members** | Lester Rusike (Lead Innovator — Backend, ML & Mobile) · Agnes Goora (Frontend Developer) |
 | **Contact** | lesterrusike@gmail.com |
-| **Date** | 12 July 2026 |
+| **Live Demo** | https://rimai.vercel.app/ — single hub for the UI demo, Android APK, and GitHub source (see Appendix A) |
+| **Date** | 14 July 2026 |
 
 </div>
 
@@ -290,11 +294,23 @@ alert delivery rates, and (with AGRITEX) qualitative impact on early treatment.
 
 ---
 
-## Appendix A — Repository & how to run
-See `README.md`. Backend: `pip install -r backend/requirements.txt` →
-`python -m app.seed` → `uvicorn app.main:app --reload` → `pytest`. App:
-`flutter create . && flutter pub get && flutter run`. USSD: open
-`ussd-simulator/index.html`.
+## Appendix A — Demo access & repository
+
+**Everything a judge needs is reachable from one URL: https://rimai.vercel.app/**
+That page is the single hub for this submission — it links directly to:
+- **UI demo** — the live AGRITEX officer dashboard (`/dashboard`), reading real
+  district risk, alerts and Guard events from the deployed backend; no install
+  required.
+- **Android APK** — a release build (arm64), pre-configured to point at the
+  live backend by default (`/downloads/RimaAI.apk`), installable directly on a
+  test device.
+- **GitHub source** — the full repository (backend, Flutter app, web
+  dashboard, docs, tests).
+
+To run locally instead: see `README.md`. Backend: `pip install -r
+backend/requirements.txt` → `python -m app.seed` → `uvicorn app.main:app
+--reload` → `pytest`. App: `flutter create . && flutter pub get && flutter
+run`. USSD: open `ussd-simulator/index.html`.
 
 ## Appendix B — Honesty statement (data provenance)
 Disease/livestock models are placeholder classifiers in the MVP; forecast and
