@@ -1,0 +1,34 @@
+# One-command local/CCE stack for the RimaAI backend.
+#
+#   docker compose up --build
+#
+# By default the backend uses its bundled SQLite database (zero external deps).
+# To use Postgres instead, uncomment the `db` service and the DATABASE_URL line.
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      ENVIRONMENT: dev
+      MESSAGING_TRANSPORT: console
+      TRIAGE_BACKEND: rule
+      # DATABASE_URL: postgresql+psycopg://rimaai:rimaai@db:5432/rimaai
+    # depends_on:
+    #   - db
+
+  # Uncomment to run against Postgres (matches the Supabase target schema).
+  # db:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_USER: rimaai
+  #     POSTGRES_PASSWORD: rimaai
+  #     POSTGRES_DB: rimaai
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - rimaai_pgdata:/var/lib/postgresql/data
+
+# volumes:
+#   rimaai_pgdata:

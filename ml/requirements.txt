@@ -1,0 +1,8 @@
+# RimaAI model-training dependencies.
+# Kept separate from the backend runtime so the API stays lightweight.
+# Install on a training machine / the ZCHPC CCE (GPU recommended):
+#   pip install -r ml/requirements.txt
+tensorflow==2.16.1
+numpy>=1.26,<2.0
+# Optional dataset fetch helper (see README):
+# kagglehub>=0.2.0

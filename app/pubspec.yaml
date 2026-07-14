@@ -1,0 +1,52 @@
+name: rimaai
+description: RimaAI — AI-powered smart farming companion for Zimbabwean farmers.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.6.0 <4.0.0"
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  # State management (small, stable API surface)
+  provider: ^6.1.2
+  # Networking
+  http: ^1.2.1
+  # Outbreak heat map (OpenStreetMap tiles)
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  # Scan image capture
+  image_picker: ^1.1.2
+  # Local persistence for offline-first scan queue
+  shared_preferences: ^2.2.3
+  # On-device inference (interface only in MVP; model shipped as roadmap item)
+  # tflite_flutter: ^0.10.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/l10n/
+    - assets/models/
+    - assets/images/
+
+# Run `dart run flutter_launcher_icons` after changing the source image to
+# regenerate the Android launcher icons (legacy + adaptive). No iOS project
+# is committed yet; re-run this after `flutter create --platforms ios .`.
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/images/logo.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#FFFFFF"
+  # Padded to Android's adaptive-icon safe zone (~60% of canvas, centered) so
+  # the badge rim and text aren't cropped by circle/squircle launcher masks.
+  adaptive_icon_foreground: "assets/images/logo_adaptive_foreground.png"

@@ -1,0 +1,41 @@
+# --- Secrets & environment ---
+.env
+*.env
+!.env.example
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.db
+*.sqlite3
+
+# --- Flutter / Dart ---
+app/.dart_tool/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/build/
+app/.idea/
+app/*.iml
+app/.gradle/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp
+
+# --- Local data / uploads ---
+backend/uploads/
+backend/rimaai.db
+
+# --- Web ---
+web/tsconfig.tsbuildinfo
+
+# --- Claude Code (local-only) ---
+.claude/settings.local.json
