@@ -43,7 +43,8 @@ class _OutbreakMapScreenState extends State<OutbreakMapScreen> {
     try {
       final risks = await _repo.map(outbreakType: _typeFilter);
       setState(() {
-        _risks = risks.where((r) => r.latitude != 0 || r.longitude != 0).toList();
+        _risks =
+            risks.where((r) => r.latitude != 0 || r.longitude != 0).toList();
         _loading = false;
       });
     } catch (_) {
@@ -109,8 +110,7 @@ class _OutbreakMapScreenState extends State<OutbreakMapScreen> {
                     ),
                   ],
                 ),
-                if (_loading)
-                  const Center(child: CircularProgressIndicator()),
+                if (_loading) const Center(child: CircularProgressIndicator()),
                 if (_error != null)
                   Center(
                     child: Card(
@@ -185,7 +185,8 @@ class _RiskMarker extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           '${risk.reportCount}',
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -258,8 +259,11 @@ class _Legend extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(width: 14, height: 14,
-                decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+            Container(
+                width: 14,
+                height: 14,
+                decoration:
+                    BoxDecoration(color: color, shape: BoxShape.circle)),
             const SizedBox(width: 6),
             Text(label, style: const TextStyle(fontSize: 12)),
           ],

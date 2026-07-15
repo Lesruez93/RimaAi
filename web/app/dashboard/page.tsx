@@ -15,6 +15,7 @@ import { Footer } from "@/components/Footer";
 import { StatCard } from "@/components/ui/StatCard";
 import { Panel } from "@/components/ui/Card";
 import { RiskPill } from "@/components/ui/RiskPill";
+import { CameraPanel } from "@/components/CameraPanel";
 import { loadDashboard } from "@/lib/api";
 import { categoryIcon, outbreakIcon, prettyLabel, timeAgo } from "@/lib/ui";
 import type { Alert, DistrictRisk, GuardEvent, OutbreakReport } from "@/lib/types";
@@ -77,6 +78,10 @@ export default async function DashboardPage() {
               <ReportsFeed reports={data.reports} />
             </Panel>
           </div>
+
+          <Panel title="RimaAI Guard camera" icon={Video}>
+            <CameraPanel />
+          </Panel>
 
           <Panel title="RimaAI Guard events" icon={Video}>
             <GuardFeed events={data.guardEvents} />

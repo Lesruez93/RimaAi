@@ -72,8 +72,10 @@ class AppStrings {
     'subscribe': {'en': 'Subscribe', 'sn': 'Nyoresa', 'nd': 'Bhalisa'},
     'consentNotice': {
       'en': 'I consent to RimaAI storing my phone number to send me alerts.',
-      'sn': 'Ndinobvuma RimaAI kuchengeta nhamba yangu yefoni kuti inditumire yambiro.',
-      'nd': 'Ngiyavuma ukuthi i-RimaAI igcine inombolo yami yefoni ukuze ingithumele izaziso.',
+      'sn':
+          'Ndinobvuma RimaAI kuchengeta nhamba yangu yefoni kuti inditumire yambiro.',
+      'nd':
+          'Ngiyavuma ukuthi i-RimaAI igcine inombolo yami yefoni ukuze ingithumele izaziso.',
     },
   };
 

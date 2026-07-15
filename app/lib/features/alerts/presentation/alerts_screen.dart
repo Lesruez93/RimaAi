@@ -131,16 +131,16 @@ class _RegistrationViewState extends State<_RegistrationView> {
           ),
           if (_error != null) ...[
             const SizedBox(height: 8),
-            Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+            Text(_error!,
+                style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ],
           const SizedBox(height: 12),
           PrimaryButton(
             label: s.t('subscribe'),
             icon: Icons.notifications_active_outlined,
             loading: _loading,
-            onPressed: (_consent && _phone.text.trim().length >= 6)
-                ? _register
-                : null,
+            onPressed:
+                (_consent && _phone.text.trim().length >= 6) ? _register : null,
           ),
         ],
       ),

@@ -57,6 +57,48 @@ class GuardDetection {
   }
 }
 
+/// Built-in demo footage shown in "demo" mode, so Guard looks alive before a
+/// real camera is configured. Mirrors the backend's seeded default.
+const String kGuardDemoStreamUrl =
+    'https://hls-harbor-livepush.akamaized.net/live_cdn/nsqIStpj8PaG-Ev/'
+    'emcQJ0pGpremocy/index.m3u8';
+
+/// A camera's stream configuration: a real ("live") URL the farmer has
+/// entered, or the built-in ("demo") stream shown before one is configured.
+class CameraSettings {
+  const CameraSettings({
+    required this.cameraId,
+    required this.streamUrl,
+    required this.mode,
+  });
+
+  final String cameraId;
+  final String? streamUrl;
+  final String mode; // "demo" | "live"
+
+  bool get isLive => mode == 'live';
+
+  CameraSettings copyWith({String? streamUrl, String? mode}) => CameraSettings(
+        cameraId: cameraId,
+        streamUrl: streamUrl ?? this.streamUrl,
+        mode: mode ?? this.mode,
+      );
+
+  factory CameraSettings.fromJson(Map<String, dynamic> json) {
+    return CameraSettings(
+      cameraId: json['camera_id'] as String,
+      streamUrl: json['stream_url'] as String?,
+      mode: json['mode'] as String? ?? 'demo',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'camera_id': cameraId,
+        'stream_url': streamUrl,
+        'mode': mode,
+      };
+}
+
 /// A persisted Guard intrusion event for the history list.
 class GuardEvent {
   const GuardEvent({

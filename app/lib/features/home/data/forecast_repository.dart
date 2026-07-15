@@ -7,7 +7,8 @@ class ForecastRepository {
   final ApiClient _api;
 
   Future<Forecast> forecast(String regionName) async {
-    final json = await _api.getJson('/forecast', query: {'region_name': regionName});
+    final json =
+        await _api.getJson('/forecast', query: {'region_name': regionName});
     return Forecast.fromJson(json as Map<String, dynamic>);
   }
 }

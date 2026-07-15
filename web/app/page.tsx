@@ -242,6 +242,28 @@ export default function LandingPage() {
             </figcaption>
           </figure>
         </div>
+
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {[
+            { src: "/screenshots/app_home.png", alt: "RimaAI Android app home screen with Scan a crop, Livestock and Guard cards", caption: "Home" },
+            { src: "/screenshots/app_scan.png", alt: "Scan a crop screen with camera and gallery capture options", caption: "Scan a crop" },
+            { src: "/screenshots/app_livestock.png", alt: "Livestock health check screen with photo check and symptom chat", caption: "Livestock" },
+            { src: "/screenshots/app_alerts.png", alt: "Subscribe to alerts screen with phone number, district and consent", caption: "Alerts" },
+          ].map((s) => (
+            <figure key={s.src} className="overflow-hidden rounded-2xl border border-black/5 bg-white/60 shadow-sm dark:bg-white/5">
+              <Image
+                src={s.src}
+                alt={s.alt}
+                width={1080}
+                height={2412}
+                className="w-full"
+              />
+              <figcaption className="border-t border-black/5 px-3 py-2 text-center text-xs font-medium text-black/60 dark:text-white/60">
+                {s.caption}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
       </section>
 
       {/* CTA */}

@@ -63,6 +63,34 @@ def test_guard_quiet_frame_no_event(client: TestClient) -> None:
     assert body["event_id"] is None
 
 
+def test_camera_settings_defaults_to_demo(client: TestClient) -> None:
+    """Fetching an unconfigured camera creates a default demo-mode row."""
+    body = client.get("/guard/camera", params={"camera_id": "new-cam"}).json()
+    assert body == {"camera_id": "new-cam", "stream_url": None, "mode": "demo"}
+
+
+def test_camera_settings_update_roundtrip(client: TestClient) -> None:
+    """Configuring a live stream URL persists and is returned on refetch."""
+    resp = client.put(
+        "/guard/camera",
+        json={
+            "camera_id": "kraal-cam-01",
+            "stream_url": "https://example.com/stream.m3u8",
+            "mode": "live",
+        },
+    )
+    assert resp.status_code == 200, resp.text
+    assert resp.json() == {
+        "camera_id": "kraal-cam-01",
+        "stream_url": "https://example.com/stream.m3u8",
+        "mode": "live",
+    }
+
+    refetched = client.get("/guard/camera", params={"camera_id": "kraal-cam-01"}).json()
+    assert refetched["stream_url"] == "https://example.com/stream.m3u8"
+    assert refetched["mode"] == "live"
+
+
 def test_subscription_lifecycle(client: TestClient, consented_farmer: dict) -> None:
     """Create, list and cancel a subscription."""
     fid = consented_farmer["id"]

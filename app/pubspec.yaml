@@ -22,6 +22,8 @@ dependencies:
   image_picker: ^1.1.2
   # Local persistence for offline-first scan queue
   shared_preferences: ^2.2.3
+  # Guard camera live/demo stream playback (HLS)
+  video_player: ^2.9.2
   # On-device inference (interface only in MVP; model shipped as roadmap item)
   # tflite_flutter: ^0.10.4
 

@@ -9,8 +9,14 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.models.guard import GuardEvent
-from app.schemas.guard import GuardDetectRequest, GuardDetectResponse, GuardEventOut
+from app.models.guard import CameraSettings, GuardEvent
+from app.schemas.guard import (
+    CameraSettingsOut,
+    CameraSettingsUpdate,
+    GuardDetectRequest,
+    GuardDetectResponse,
+    GuardEventOut,
+)
 from app.services.guard_detection import detect, top_detection
 
 router = APIRouter(prefix="/guard", tags=["guard"])
@@ -56,3 +62,37 @@ def list_events(limit: int = 50, db: Session = Depends(get_db)) -> list[GuardEve
     return list(
         db.scalars(select(GuardEvent).order_by(GuardEvent.id.desc()).limit(limit)).all()
     )
+
+
+@router.get("/camera", response_model=CameraSettingsOut)
+def get_camera_settings(
+    camera_id: str = "kraal-cam-01", db: Session = Depends(get_db)
+) -> CameraSettings:
+    """Fetch a camera's stream configuration, creating a default row on first use."""
+    settings = db.get(CameraSettings, camera_id)
+    if settings is None:
+        settings = CameraSettings(camera_id=camera_id, stream_url=None, mode="demo")
+        db.add(settings)
+        db.commit()
+        db.refresh(settings)
+    return settings
+
+
+@router.put("/camera", response_model=CameraSettingsOut)
+def update_camera_settings(
+    payload: CameraSettingsUpdate, db: Session = Depends(get_db)
+) -> CameraSettings:
+    """Create or update a camera's stream URL and demo/live mode.
+
+    Shared by the app and the dashboard so configuring a camera from either
+    surface is immediately reflected on the other.
+    """
+    settings = db.get(CameraSettings, payload.camera_id)
+    if settings is None:
+        settings = CameraSettings(camera_id=payload.camera_id)
+        db.add(settings)
+    settings.stream_url = payload.stream_url
+    settings.mode = payload.mode
+    db.commit()
+    db.refresh(settings)
+    return settings

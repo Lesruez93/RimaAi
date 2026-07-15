@@ -6,7 +6,7 @@ Importing this package registers every model on ``Base.metadata`` so that
 
 from app.models.alert import Alert
 from app.models.farmer import Farmer
-from app.models.guard import GuardEvent
+from app.models.guard import CameraSettings, GuardEvent
 from app.models.outbreak import DistrictRisk, OutbreakReport
 from app.models.region import Region
 from app.models.scan import ScanHistory
@@ -14,6 +14,7 @@ from app.models.subscription import Subscription
 
 __all__ = [
     "Alert",
+    "CameraSettings",
     "DistrictRisk",
     "Farmer",
     "GuardEvent",

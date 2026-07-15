@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -41,3 +42,21 @@ class GuardEventOut(BaseModel):
     confidence: float
     is_intrusion: bool
     created_at: datetime
+
+
+class CameraSettingsUpdate(BaseModel):
+    """Request body to configure a camera's stream."""
+
+    camera_id: str = "kraal-cam-01"
+    stream_url: str | None = Field(default=None, max_length=512)
+    mode: Literal["demo", "live"] = "demo"
+
+
+class CameraSettingsOut(BaseModel):
+    """A camera's current stream configuration."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    camera_id: str
+    stream_url: str | None
+    mode: Literal["demo", "live"]

@@ -62,7 +62,8 @@ class _LivestockScreenState extends State<LivestockScreen> {
               child: ListTile(
                 leading: const Icon(Icons.photo_camera_outlined),
                 title: const Text('Photo health check'),
-                subtitle: const Text('Check tick load / skin condition from a photo'),
+                subtitle:
+                    const Text('Check tick load / skin condition from a photo'),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -183,7 +184,8 @@ class _ChatEntry {
         padding: const EdgeInsets.symmetric(vertical: 6),
         child: Card(
           color: Theme.of(context).colorScheme.errorContainer,
-          child: Padding(padding: const EdgeInsets.all(14), child: Text(errorText!)),
+          child: Padding(
+              padding: const EdgeInsets.all(14), child: Text(errorText!)),
         ),
       );
     }
@@ -217,7 +219,8 @@ class _UrgencyBadge extends StatelessWidget {
       ),
       child: Text(
         urgency.toUpperCase(),
-        style: TextStyle(color: color, fontWeight: FontWeight.w700, fontSize: 12),
+        style:
+            TextStyle(color: color, fontWeight: FontWeight.w700, fontSize: 12),
       ),
     );
   }

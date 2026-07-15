@@ -39,6 +39,12 @@ export interface GuardEvent {
   created_at: string;
 }
 
+export interface CameraSettings {
+  camera_id: string;
+  stream_url: string | null;
+  mode: "demo" | "live";
+}
+
 export interface DashboardData {
   risks: DistrictRisk[];
   reports: OutbreakReport[];

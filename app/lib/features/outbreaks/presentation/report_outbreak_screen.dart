@@ -96,7 +96,8 @@ class _ReportOutbreakScreenState extends State<ReportOutbreakScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Outbreak type', style: Theme.of(context).textTheme.titleMedium),
+            Text('Outbreak type',
+                style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,

@@ -61,7 +61,7 @@ class _ScanScreenState extends State<ScanScreen> {
     } catch (_) {
       setState(() => _error =
           'Could not reach the server. On-device scanning works offline in the '
-          'full app; the demo needs the backend running.');
+              'full app; the demo needs the backend running.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }

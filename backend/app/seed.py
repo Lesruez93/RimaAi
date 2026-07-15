@@ -13,6 +13,7 @@ from datetime import UTC, datetime, timedelta
 from app.core.database import SessionLocal, init_db
 from app.models import (
     Alert,
+    CameraSettings,
     DistrictRisk,
     Farmer,
     GuardEvent,
@@ -22,6 +23,13 @@ from app.models import (
     Subscription,
 )
 from app.services.outbreak import recompute_district_risk
+
+# Public demo HLS stream used to fill the Guard camera view when no real
+# camera has been configured yet, so the feature looks alive out of the box.
+DEMO_STREAM_URL = (
+    "https://hls-harbor-livepush.akamaized.net/live_cdn/nsqIStpj8PaG-Ev/"
+    "emcQJ0pGpremocy/index.m3u8"
+)
 
 # (name, province, lat, lon) — approximate district centroids.
 REGIONS = [
@@ -53,6 +61,7 @@ def _clear(db) -> None:  # type: ignore[no-untyped-def]
         Subscription,
         ScanHistory,
         GuardEvent,
+        CameraSettings,
         OutbreakReport,
         DistrictRisk,
         Farmer,
@@ -140,6 +149,7 @@ def seed() -> None:
                 ScanHistory(scan_type="crop", label="tomato_late_blight", confidence=0.88, advice="Remove infected plants; apply fungicide.", source="device"),
                 ScanHistory(scan_type="livestock", label="cattle_heavy_tick_load", confidence=0.82, advice="Dip now; watch for January disease.", source="device"),
                 GuardEvent(camera_id="kraal-cam-01", label="person", confidence=0.91, is_intrusion=True),
+                CameraSettings(camera_id="kraal-cam-01", stream_url=DEMO_STREAM_URL, mode="demo"),
             ]
         )
         db.commit()

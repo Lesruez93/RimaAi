@@ -24,4 +24,15 @@ class GuardRepository {
         .map((e) => GuardEvent.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  Future<CameraSettings> cameraSettings(String cameraId) async {
+    final json =
+        await _api.getJson('/guard/camera', query: {'camera_id': cameraId});
+    return CameraSettings.fromJson(json as Map<String, dynamic>);
+  }
+
+  Future<CameraSettings> updateCameraSettings(CameraSettings settings) async {
+    final json = await _api.putJson('/guard/camera', settings.toJson());
+    return CameraSettings.fromJson(json as Map<String, dynamic>);
+  }
 }

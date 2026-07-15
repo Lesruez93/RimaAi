@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../../core/l10n/app_strings.dart';
 import '../../../core/network/api_client.dart';
 import '../data/guard_repository.dart';
 import '../domain/guard_models.dart';
+import 'camera_settings_screen.dart';
 
-/// RimaAI Guard (commercial): a simulated camera feed with AI detection boxes
-/// and an intrusion alert history. Sample frames stand in for a live IP camera.
+const String _kCameraId = 'kraal-cam-01';
+
+/// RimaAI Guard (commercial): a live/demo camera stream with AI detection
+/// boxes overlaid, plus an intrusion alert history. The detection boxes are
+/// driven by sample frames until on-device inference ships; the video behind
+/// them can be the farmer's real camera or a built-in demo stream.
 class GuardScreen extends StatefulWidget {
   const GuardScreen({super.key});
 
@@ -17,7 +23,7 @@ class GuardScreen extends StatefulWidget {
 class _GuardScreenState extends State<GuardScreen> {
   final _repo = GuardRepository(ApiClient());
 
-  // Cyclable sample frames representing what the kraal camera "sees".
+  // Cyclable sample frames driving the AI detection-box overlay.
   static const _frames = [
     ('sample_quiet_01', 'Quiet — cattle only'),
     ('sample_night_01', 'Night — intruder'),
@@ -28,6 +34,7 @@ class _GuardScreenState extends State<GuardScreen> {
   int _frameIndex = 0;
   GuardDetection? _detection;
   List<GuardEvent> _events = [];
+  CameraSettings? _cameraSettings;
   bool _loading = false;
 
   @override
@@ -35,13 +42,14 @@ class _GuardScreenState extends State<GuardScreen> {
     super.initState();
     _runDetection();
     _loadEvents();
+    _loadCameraSettings();
   }
 
   Future<void> _runDetection() async {
     setState(() => _loading = true);
     try {
       final det = await _repo.detect(
-        cameraId: 'kraal-cam-01',
+        cameraId: _kCameraId,
         frameId: _frames[_frameIndex].$1,
       );
       setState(() => _detection = det);
@@ -62,6 +70,24 @@ class _GuardScreenState extends State<GuardScreen> {
     }
   }
 
+  Future<void> _loadCameraSettings() async {
+    try {
+      final settings = await _repo.cameraSettings(_kCameraId);
+      if (mounted) setState(() => _cameraSettings = settings);
+    } catch (_) {
+      /* offline: fall back to the simulated backdrop */
+    }
+  }
+
+  Future<void> _openCameraSettings() async {
+    final updated = await Navigator.of(context).push<CameraSettings>(
+      MaterialPageRoute(
+        builder: (_) => const CameraSettingsScreen(cameraId: _kCameraId),
+      ),
+    );
+    if (updated != null && mounted) setState(() => _cameraSettings = updated);
+  }
+
   void _nextFrame() {
     setState(() => _frameIndex = (_frameIndex + 1) % _frames.length);
     _runDetection();
@@ -77,6 +103,11 @@ class _GuardScreenState extends State<GuardScreen> {
         title: Text(s.t('guard')),
         actions: [
           IconButton(
+            onPressed: _openCameraSettings,
+            icon: const Icon(Icons.videocam_outlined),
+            tooltip: 'Camera settings',
+          ),
+          IconButton(
             onPressed: _loading ? null : _nextFrame,
             icon: const Icon(Icons.skip_next),
             tooltip: 'Next camera frame',
@@ -90,6 +121,11 @@ class _GuardScreenState extends State<GuardScreen> {
             label: _frames[_frameIndex].$2,
             boxes: det?.boxes ?? const [],
             loading: _loading,
+            streamUrl: _cameraSettings == null
+                ? null
+                : _cameraSettings!.isLive
+                    ? _cameraSettings!.streamUrl
+                    : kGuardDemoStreamUrl,
           ),
           const SizedBox(height: 12),
           if (intrusion)
@@ -136,17 +172,20 @@ class _GuardScreenState extends State<GuardScreen> {
       '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
 }
 
-/// The simulated camera viewport with detection boxes drawn over it.
+/// The camera viewport: a real HLS stream when one resolves, with detection
+/// boxes drawn over it; falls back to a faux night-vision backdrop otherwise.
 class _CameraView extends StatelessWidget {
   const _CameraView({
     required this.label,
     required this.boxes,
     required this.loading,
+    required this.streamUrl,
   });
 
   final String label;
   final List<DetectionBox> boxes;
   final bool loading;
+  final String? streamUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -158,16 +197,22 @@ class _CameraView extends StatelessWidget {
           builder: (context, constraints) {
             return Stack(
               children: [
-                // Faux night-vision backdrop.
-                Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0xFF0d1f14), Color(0xFF04120a)],
+                if (streamUrl != null)
+                  Positioned.fill(
+                    key: ValueKey(streamUrl),
+                    child: _StreamPlayer(streamUrl: streamUrl!),
+                  )
+                else
+                  // Faux night-vision backdrop, shown until a stream resolves.
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Color(0xFF0d1f14), Color(0xFF04120a)],
+                      ),
                     ),
                   ),
-                ),
                 for (final b in boxes)
                   Positioned(
                     left: b.x * constraints.maxWidth,
@@ -181,10 +226,12 @@ class _CameraView extends StatelessWidget {
                   top: 8,
                   child: Row(
                     children: [
-                      const Icon(Icons.circle, size: 10, color: Colors.redAccent),
+                      const Icon(Icons.circle,
+                          size: 10, color: Colors.redAccent),
                       const SizedBox(width: 6),
                       Text('LIVE • $label',
-                          style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                          style: const TextStyle(
+                              color: Colors.white70, fontSize: 12)),
                     ],
                   ),
                 ),
@@ -196,6 +243,87 @@ class _CameraView extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+/// Plays an HLS stream, showing a spinner while it buffers and a friendly
+/// fallback if the camera is unreachable (e.g. offline, wrong URL).
+class _StreamPlayer extends StatefulWidget {
+  const _StreamPlayer({required this.streamUrl});
+  final String streamUrl;
+
+  @override
+  State<_StreamPlayer> createState() => _StreamPlayerState();
+}
+
+class _StreamPlayerState extends State<_StreamPlayer> {
+  VideoPlayerController? _controller;
+  bool _errored = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
+  Future<void> _init() async {
+    final controller =
+        VideoPlayerController.networkUrl(Uri.parse(widget.streamUrl));
+    try {
+      await controller.initialize();
+      await controller.setLooping(true);
+      await controller.setVolume(0);
+      await controller.play();
+      if (!mounted) {
+        controller.dispose();
+        return;
+      }
+      setState(() => _controller = controller);
+    } on Exception {
+      controller.dispose();
+      if (mounted) setState(() => _errored = true);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = _controller;
+    if (_errored) {
+      return Container(
+        color: const Color(0xFF04120a),
+        alignment: Alignment.center,
+        child: const Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.videocam_off_outlined, color: Colors.white38, size: 32),
+            SizedBox(height: 8),
+            Text('Stream unavailable',
+                style: TextStyle(color: Colors.white38, fontSize: 12)),
+          ],
+        ),
+      );
+    }
+    if (controller == null || !controller.value.isInitialized) {
+      return Container(
+        color: const Color(0xFF04120a),
+        alignment: Alignment.center,
+        child: const CircularProgressIndicator(strokeWidth: 2),
+      );
+    }
+    return FittedBox(
+      fit: BoxFit.cover,
+      child: SizedBox(
+        width: controller.value.size.width,
+        height: controller.value.size.height,
+        child: VideoPlayer(controller),
       ),
     );
   }

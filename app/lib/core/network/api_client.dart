@@ -27,18 +27,29 @@ class ApiClient {
   final http.Client _client;
   final String _baseUrl;
 
-  Uri _uri(String path, [Map<String, dynamic>? query]) => Uri.parse('$_baseUrl$path')
-      .replace(queryParameters: query?.map((k, v) => MapEntry(k, '$v')));
+  Uri _uri(String path, [Map<String, dynamic>? query]) =>
+      Uri.parse('$_baseUrl$path')
+          .replace(queryParameters: query?.map((k, v) => MapEntry(k, '$v')));
 
   Future<dynamic> getJson(String path, {Map<String, dynamic>? query}) async {
-    final res =
-        await _client.get(_uri(path, query)).timeout(ApiConfig.timeout);
+    final res = await _client.get(_uri(path, query)).timeout(ApiConfig.timeout);
     return _decode(res);
   }
 
   Future<dynamic> postJson(String path, Map<String, dynamic> body) async {
     final res = await _client
         .post(
+          _uri(path),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(body),
+        )
+        .timeout(ApiConfig.timeout);
+    return _decode(res);
+  }
+
+  Future<dynamic> putJson(String path, Map<String, dynamic> body) async {
+    final res = await _client
+        .put(
           _uri(path),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(body),
