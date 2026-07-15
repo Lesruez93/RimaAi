@@ -243,11 +243,14 @@ export default function LandingPage() {
           </figure>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-7">
           {[
-            { src: "/screenshots/app_home.png", alt: "RimaAI Android app home screen with Scan a crop, Livestock and Guard cards", caption: "Home" },
+            { src: "/screenshots/app_onboarding.png", alt: "RimaAI onboarding screen with language selection: English, chiShona, isiNdebele", caption: "Onboarding" },
+            { src: "/screenshots/app_home.png", alt: "RimaAI Android app home screen with planting-window forecast, Scan a crop, Livestock and Guard cards", caption: "Home" },
             { src: "/screenshots/app_scan.png", alt: "Scan a crop screen with camera and gallery capture options", caption: "Scan a crop" },
             { src: "/screenshots/app_livestock.png", alt: "Livestock health check screen with photo check and symptom chat", caption: "Livestock" },
+            { src: "/screenshots/app_outbreak_report.png", alt: "Report an outbreak screen with outbreak type, district and description fields", caption: "Report outbreak" },
+            { src: "/screenshots/app_outbreak_map.png", alt: "Outbreak map screen with Zimbabwe district risk markers", caption: "Outbreak map" },
             { src: "/screenshots/app_alerts.png", alt: "Subscribe to alerts screen with phone number, district and consent", caption: "Alerts" },
           ].map((s) => (
             <figure key={s.src} className="overflow-hidden rounded-2xl border border-black/5 bg-white/60 shadow-sm dark:bg-white/5">
