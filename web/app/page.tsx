@@ -35,7 +35,7 @@ const evaluatorLinks = [
   {
     icon: Download,
     title: "Android APK",
-    body: "Release build (arm64), points at the live backend by default — install directly on a test device.",
+    body: "Release build, points at the live backend by default — install directly on a test device.",
     href: "/downloads/RimaAI.apk",
     cta: "Download APK",
     external: false,
