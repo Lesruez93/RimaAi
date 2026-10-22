@@ -7,20 +7,26 @@ import type { Alert, CameraSettings, DashboardData, DistrictRisk, GuardEvent, Ou
 export const GUARD_DEMO_STREAM_URL =
   "https://hls-harbor-livepush.akamaized.net/live_cdn/nsqIStpj8PaG-Ev/emcQJ0pGpremocy/index.m3u8";
 
-// Falls back to the deployed Cloud Run backend in production builds (Vercel
-// sets NODE_ENV=production automatically) so the live site works even if
-// NEXT_PUBLIC_API_BASE isn't separately configured in the hosting dashboard.
-// Local `next dev` still defaults to a local backend on localhost:8000.
+// In production the backend is deployed alongside the site on Vercel and
+// reached same-origin at /api (see vercel.json), so there is no CORS or
+// separate host to configure. NEXT_PUBLIC_API_BASE overrides this; local
+// `next dev` defaults to a backend on localhost:8000.
 const DEFAULT_API_BASE =
-  process.env.NODE_ENV === "production"
-    ? "https://rimaai-backend-943314742820.us-central1.run.app"
-    : "http://localhost:8000";
+  process.env.NODE_ENV === "production" ? "/api" : "http://localhost:8000";
 
 export const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "") ?? DEFAULT_API_BASE;
 
+/** API base usable from server components, where a relative URL can't be fetched. */
+function serverApiBase(): string {
+  if (!API_BASE.startsWith("/")) return API_BASE;
+  const host = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
+  return host ? `https://${host}${API_BASE}` : `http://localhost:3000${API_BASE}`;
+}
+
 async function getJson<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, { cache: "no-store" });
+  const base = typeof window === "undefined" ? serverApiBase() : API_BASE;
+  const res = await fetch(`${base}${path}`, { cache: "no-store" });
   if (!res.ok) throw new Error(`${path} -> ${res.status}`);
   return (await res.json()) as T;
 }

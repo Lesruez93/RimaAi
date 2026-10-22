@@ -7,6 +7,7 @@ Twilio) without code changes. Never hard-code secrets; see ``.env.example``.
 
 from __future__ import annotations
 
+import os
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -70,4 +71,12 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings() -> Settings:
     """Return a cached :class:`Settings` instance."""
-    return Settings()
+    settings = Settings()
+    # Vercel functions run on a read-only filesystem (only /tmp is writable) and
+    # cold-start with an empty disk, so a relative SQLite file would crash on
+    # startup. Use /tmp and re-seed each cold start unless a real database
+    # (e.g. Supabase Postgres via DATABASE_URL) is configured.
+    if os.environ.get("VERCEL") and settings.database_url == "sqlite:///./rimaai.db":
+        settings.database_url = "sqlite:////tmp/rimaai.db"
+        settings.seed_on_startup = True
+    return settings

@@ -8,6 +8,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.types import ASGIApp, Receive, Scope, Send
 
 from app.core.config import get_settings
 from app.core.database import init_db
@@ -48,6 +49,27 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+class StripApiPrefix:
+    """Serve ``/api/...`` as ``/...``.
+
+    On Vercel the site rewrites ``/api/*`` to this service; depending on the
+    routing mode the prefix may or may not already be removed, so accept both.
+    """
+
+    def __init__(self, inner: ASGIApp) -> None:
+        self.inner = inner
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] in ("http", "websocket"):
+            path = scope["path"]
+            if path == "/api" or path.startswith("/api/"):
+                scope = {**scope, "path": path[4:] or "/"}
+                if "raw_path" in scope and scope["raw_path"]:
+                    scope["raw_path"] = scope["raw_path"][4:] or b"/"
+        await self.inner(scope, receive, send)
+
+
+app.add_middleware(StripApiPrefix)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[o.strip() for o in settings.cors_origins.split(",")],
