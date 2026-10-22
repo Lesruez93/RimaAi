@@ -1,9 +1,10 @@
 name: CI
 
+# Manual only for now: runs were failing within seconds on every push/PR and
+# emailing on each one. Re-add the push/pull_request triggers once Actions is
+# working again (Run workflow button on the Actions tab still works).
 on:
-  push:
-    branches: ["**"]
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   backend:
