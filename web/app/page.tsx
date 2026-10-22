@@ -5,7 +5,6 @@ import {
   Camera,
   CloudRain,
   Download,
-  Github,
   Languages,
   LayoutDashboard,
   MapPin,
@@ -20,8 +19,6 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppSimulator } from "@/components/WhatsAppSimulator";
 import { UssdSimulator } from "@/components/UssdSimulator";
-
-const GITHUB_URL = "https://github.com/Lesruez93/RimaAi";
 
 const evaluatorLinks = [
   {
@@ -39,14 +36,6 @@ const evaluatorLinks = [
     href: "/downloads/RimaAI.apk",
     cta: "Download APK",
     external: false,
-  },
-  {
-    icon: Github,
-    title: "Source code",
-    body: "Backend, Flutter app, web dashboard, docs and tests — everything behind this demo.",
-    href: GITHUB_URL,
-    cta: "View on GitHub",
-    external: true,
   },
   {
     icon: MessageSquare,
@@ -137,10 +126,10 @@ export default function LandingPage() {
           </h2>
           <p className="mx-auto mt-1 max-w-2xl text-center text-sm text-black/60 dark:text-white/60">
             This page is the single hub for the AI4I submission: the UI demo,
-            the Android APK, the GitHub source and the USSD and WhatsApp
-            simulators are all linked below.
+            the Android APK and the USSD and WhatsApp simulators are all
+            linked below.
           </p>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {evaluatorLinks.map((l) => (
               <div
                 key={l.title}
